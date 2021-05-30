@@ -39,6 +39,7 @@ class App extends Component {
 
     getCurrentUser()
     .then(response => {
+      console.log('got new response: ' + response);
       this.setState({
         currentUser: response,
         authenticated: true,
@@ -47,8 +48,8 @@ class App extends Component {
     }).catch(error => {
       this.setState({
         loading: false
-      });  
-    });    
+      });
+    });
   }
 
   handleLogout() {
@@ -65,6 +66,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("Loading app");
     if(this.state.loading) {
       return <LoadingIndicator />
     }
@@ -76,18 +78,18 @@ class App extends Component {
         </div>
         <div className="app-body">
           <Switch>
-            <Route exact path="/" component={Home}></Route>           
+            <Route exact path="/" component={Home}></Route>
             <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={Profile}></PrivateRoute>
             <Route path="/login"
               render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/signup"
               render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
-            <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+            <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
             <Route component={NotFound}></Route>
           </Switch>
         </div>
-        <Alert stack={{limit: 3}} 
+        <Alert stack={{limit: 3}}
           timeout = {3000}
           position='top-right' effect='slide' offset={65} />
       </div>
